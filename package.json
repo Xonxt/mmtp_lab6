@@ -1,0 +1,20 @@
+{
+  "name": "lab6",
+  "version": "1.0.0",
+  "description": "The code for Lab work 6: MEAN-stack + Socket.io",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nikita Kovalenko",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "latest",
+    "bower": "latest",
+    "express": "latest",
+    "jade": "latest",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "nodemon": "latest"
+  }
+}
