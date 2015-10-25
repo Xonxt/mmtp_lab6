@@ -14,8 +14,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
-    "angular-new-router": "~0.5.3",
-    "angular-resource": "~1.4.7"
+    "angular": "latest",
+    "angular-new-router": "latest",
+    "angular-resource": "latest",
+    "socket.io-client": "latest"
   }
 }

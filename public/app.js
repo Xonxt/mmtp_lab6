@@ -1,6 +1,6 @@
 'use strict';
 
-var appModule = angular.module('app', ['ngNewRouter', 'ngResource']);
+var appModule = angular.module('app', ['app.main', 'ngNewRouter', 'ngResource']);
 
 appModule.controller('AppController', ['$router', AppController]);
 

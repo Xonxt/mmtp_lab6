@@ -1,12 +1,21 @@
 'use strict';
 
-// подключение модулей
+// подключение модулей.
 var express = require('express');
+var http = require('http');
+var app = express();
+
+var session = require('express-session')({
+        secret: "cakeIsALie",
+        resave: true,
+        saveUninitialized: true
+    });
+var sharedsession = require('express-socket.io-session');
+
 var bodyParser = require('body-parser');
 var morgan = require("morgan");
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-var app = express();  
 
 // подключим логгер
 app.use(morgan('dev'));
@@ -18,13 +27,34 @@ app.use(bodyParser.urlencoded({extended:true}));
 // установим папку public как статическую
 app.use(express.static(__dirname + '/public'));
 
-// порт приложения
-var port = process.env.PORT || 8080;
+// вьюхи
+app.set('views', __dirname + '/server/views');
+app.set('view engine', 'jade');
 
-// запуск сервера на порту 8080
-app.listen(port, function(err) {
-  if (err) throw err;
-  console.log("Listening on port " + port + "..." );
+app.use(session);
+
+app.get('/', function(req, res) {
+  req.session.myCustomData = { userID:Math.floor(Math.random()*100) };
+  res.render('index', {header : "Home page!", msg:"hello", session: req.session });
 });
 
-exports = module.exports = app;   
+// запуск сервера на порту 8080
+var port = process.env.PORT || 8080;
+var server = app.listen(port, function(err){
+  if (err) throw err;
+  console.log("Started Express-server on port " + port + "..." );
+});
+
+var io = require('socket.io').listen(server);
+
+io.use(sharedsession(session));
+
+io.sockets.on('connection', function(socket){
+    
+    io.sockets.emit("init", {});
+    
+    socket.on("send", function(data){      
+      io.sockets.emit("message", 
+        { msg: data, userID : socket.handshake.session.myCustomData.userID });  
+    });
+});
