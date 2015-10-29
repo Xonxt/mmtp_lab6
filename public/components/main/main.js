@@ -47,7 +47,7 @@ function MainController(socket) {
   socket.on("message", function(data) {
     if (!main.textField)
       main.textField = "";
-    main.textField += "user[" + data.userID + "]" + data.msg + "\n";
+    main.textField += "client: " + data.msg + "\n";
   });
   
   socket.on("init", function(data) {
