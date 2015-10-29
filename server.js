@@ -54,7 +54,7 @@ io.sockets.on('connection', function(socket){
     io.sockets.emit("init", {});
     
     socket.on("send", function(data){      
-      io.sockets.emit("message", 
+      socket.emit("message", 
         { msg: data, userID : socket.handshake.session.myCustomData.userID });  
     });
 });
