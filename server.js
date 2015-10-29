@@ -34,7 +34,6 @@ app.set('view engine', 'jade');
 app.use(session);
 
 app.get('/', function(req, res) {
-  req.session.myCustomData = { userID:Math.floor(Math.random()*100) };
   res.render('index', {header : "Home page!", msg:"hello", session: req.session });
 });
 
@@ -47,14 +46,12 @@ var server = app.listen(port, function(err){
 
 var io = require('socket.io').listen(server);
 
-io.use(sharedsession(session));
-
 io.sockets.on('connection', function(socket){
     
     io.sockets.emit("init", {});
     
     socket.on("send", function(data){      
       socket.emit("message", 
-        { msg: data, userID : socket.handshake.session.myCustomData.userID });  
+        { msg: data });  
     });
 });
